@@ -1,0 +1,27 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Loading Titanic dataset(Seaborn's build in data set)
+df = sns.load_dataset('titanic')
+
+print(df.head())
+print(df.columns)
+
+#Bar Chart for Distribution of Gender
+gender_counts = df['sex'].value_counts()
+
+plt.figure(figsize=(8,5))
+plt.bar(gender_counts.index, gender_counts.values, color=('Blue','Pink'))
+plt.xlabel("Gender")
+plt.ylabel("Count")
+plt.title("Distribution of Gender in Titanic Dataset")
+plt.show()
+
+#Histogramfor Distribution of Age
+plt.figure(figsize=(10,6))
+plt.hist(df['age'].dropna(), bins=20, color='gold', edgecolor='black')
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.title("Age Distribution in Titanic Dataset")
+plt.show()
