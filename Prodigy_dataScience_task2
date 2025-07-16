@@ -1,0 +1,60 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = sns.load_dataset('titanic')
+
+print("First 5 rows:")
+print(df.head())
+
+print("\nDataset Info:")
+print(df.info())
+
+print("\nSummary Statistics:")
+print(df.describe(include='all'))
+
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+df['age'] = df['age'].fillna(df['age'].median())
+
+df['embarked'] = df['embarked'].fillna(df['embarked'].mode()[0])
+
+# Droping 'deck' coz of many missing values
+df = df.drop(columns=['deck'])
+
+print("\nMissing Values After Cleaning:")
+print(df.isnull().sum())
+
+sns.countplot(x='sex', data=df, hue='sex',palette=['orchid', 'gold'])
+plt.title("Gender Distribution")
+plt.show()
+
+sns.countplot(x='survived', data=df, hue='survived', palette = ['slategray', 'mediumaquamarine'])
+plt.title("Survival Count (0=No, 1=Yes)")
+plt.show()
+
+plt.hist(df['age'], bins=20, color='turquoise', edgecolor='black')
+plt.title("Age Distribution")
+plt.xlabel("Age")
+plt.ylabel("Frequency")
+plt.show()
+
+sns.countplot(x='sex', hue='survived', data=df, palette = ['slategray', 'mediumaquamarine'])
+plt.title("Survival by Gender")
+plt.show()
+
+sns.countplot(x='pclass', hue='survived', data=df, palette=['cornflowerblue', 'cadetblue'])
+plt.title("Survival by Passenger Class")
+plt.xlabel("Passenger Class")
+plt.ylabel("Count")
+plt.show()
+
+plt.figure(figsize=(10,8))
+
+# Taking only numeric columns
+numeric_df = df.select_dtypes(include=['number'])
+
+sns.heatmap(numeric_df.corr(), annot=True, cmap='YlGn')
+plt.title("Correlation Heatmap")
+plt.show()
