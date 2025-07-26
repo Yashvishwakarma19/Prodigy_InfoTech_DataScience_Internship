@@ -1,0 +1,53 @@
+# Task 5 – Traffic Accident Analysis
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+
+# using for ignoring warnings
+warnings.filterwarnings("ignore")
+
+# Sample traffic accident dataset
+data = {
+    'Date': ['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02', '2023-01-03'],
+    'Time': ['08:00', '18:30', '23:45', '14:00', '07:30'],
+    'Weather': ['Clear', 'Rain', 'Snow', 'Clear', 'Fog'],
+    'Road_Condition': ['Dry', 'Wet', 'Snow', 'Dry', 'Wet'],
+    'Accident_Severity': ['Minor', 'Major', 'Major', 'Minor', 'Minor']
+}
+
+# Creating DataFrame
+df = pd.DataFrame(data)
+
+#Time to hour in specified format
+df['Hour'] = pd.to_datetime(df['Time'], format='%H:%M').dt.hour
+
+#accident count by weather condition
+sns.countplot(x='Weather', hue='Weather', data=df, palette='viridis', legend=False)
+plt.title("Accidents by Weather Condition")
+plt.xlabel("Weather")
+plt.ylabel("Number of Accidents")
+plt.show()
+
+#accident count by road condition
+sns.countplot(x='Road_Condition', hue='Road_Condition', data=df, palette='plasma', legend=False)
+plt.title("Accidents by Road Condition")
+plt.xlabel("Road Condition")
+plt.ylabel("Number of Accidents")
+plt.show()
+
+#accidents by time of day (hour)
+plt.figure(figsize=(10,5))
+sns.histplot(df['Hour'], bins=24, kde=False, color='teal')
+plt.title("Accidents by Time of Day")
+plt.xlabel("Hour of Day")
+plt.ylabel("Number of Accidents")
+plt.xticks(range(0,24))
+plt.show()
+
+#accidents by severity
+sns.countplot(x='Accident_Severity', hue='Accident_Severity', data=df, palette='Set2', legend=False)
+plt.title("Accidents by Severity")
+plt.xlabel("Severity")
+plt.ylabel("Count")
+plt.show()
